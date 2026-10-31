@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeunesse Bomoko ASBL - Fiche d'adhésion</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 10px;
+    background: #e9eef2;
+    font-family: Arial, sans-serif;
+    color: #111;
+}
+
+.fiche {
+    width: 100%;
+    max-width: 850px;
+    margin: auto;
+    padding: 22px;
+    background: #fff;
+    border: 3px solid #4ca6a6;
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+/* FILIGRANE : le logo est placé derrière le contenu */
+.filigrane {
+    position: absolute;
+    inset: 0;
+    background-image: url("./z.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Le contenu reste au-dessus du filigrane */
+.fiche > header,
+.fiche > form,
+.fiche > footer {
+    position: relative;
+    z-index: 1;
+}
+
+.entete {
+    text-align: center;
+    color: #092c5c;
+    background: transparent;
+}
+
+.pays {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: clamp(12px, 3vw, 22px);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.drapeau {
+    width: 65px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.logo-entete {
+    width: 170px;
+    height: 170px;
+    margin: 12px auto;
+}
+
+.logo-entete img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.titre-association {
+    font-size: clamp(17px, 3vw, 25px);
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.devise {
+    font-weight: bold;
+    font-size: 15px;
+    margin: 8px 0;
+}
+
+.jaune { color: #c5a02b; }
+
+.titre-fiche {
+    color: #092c5c;
+    text-decoration: underline;
+    font-size: clamp(25px, 4vw, 34px);
+    margin: 20px 0;
+}
+
+.matricule {
+    text-align: right;
+    font-weight: bold;
+    margin: 12px 0;
+}
+
+.matricule input {
+    width: 130px;
+    max-width: 100%;
+    border: none;
+    border-bottom: 2px dotted #555;
+    padding: 5px;
+    background: transparent;
+    font-size: 15px;
+}
+
+/* Sections légèrement transparentes pour laisser voir le filigrane */
+.section {
+    border: 1px solid #aebfc5;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 12px 0;
+    background: rgba(255, 255, 255, 0.30);
+    break-inside: avoid;
+}
+
+.section h2 {
+    font-size: 18px;
+    color: #092c5c;
+    margin: 0 0 12px;
+}
+
+.section h2.vert { color: #176b37; }
+
+.ligne {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    margin: 12px 0;
+}
+
+.ligne label {
+    font-size: 14px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.ligne input,
+.ligne select {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    border: none;
+    border-bottom: 1px dotted #444;
+    padding: 6px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    background: transparent;
+    border-radius: 0;
+}
+
+.ligne input:focus,
+.ligne select:focus {
+    border-bottom: 2px solid #176b37;
+}
+
+.choix {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 12px 0;
+}
+
+.choix label { font-size: 14px; }
+
+.choix input {
+    width: 17px;
+    height: 17px;
+    vertical-align: middle;
+}
+
+.motivation {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid #b8c4cc;
+    border-radius: 5px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.30);
+    resize: vertical;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.7;
+    outline: none;
+}
+
+.engagement {
+    font-size: 14px;
+    line-height: 1.7;
+    font-style: italic;
+}
+
+.administration {
+    border: 1px solid #42824a;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 12px;
+    background: rgba(226, 242, 225, 0.35);
+    break-inside: avoid;
+}
+
+.administration h2 {
+    color: #176b37;
+    font-size: 19px;
+    margin-top: 0;
+}
+
+.pied {
+    background: #064b91;
+    color: white;
+    border: 3px solid #24804c;
+    text-align: center;
+    font-weight: bold;
+    padding: 14px 8px;
+    line-height: 1.7;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.actions {
+    max-width: 850px;
+    margin: 18px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    padding: 14px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-envoyer { background: #16803c; color: white; }
+.btn-pdf { background: #064b91; color: white; }
+.btn-effacer { background: #d9e0e6; color: #111; }
+
+@media screen and (max-width: 500px) {
+    body { padding: 4px; }
+    .fiche { padding: 9px; }
+    .drapeau { width: 45px; }
+    .pays { gap: 6px; }
+    .logo-entete { width: 130px; height: 130px; }
+    .ligne { flex-wrap: wrap; gap: 4px; }
+    .ligne label { width: 100%; }
+    .ligne input, .ligne select { flex-basis: 100%; }
+    .section { padding: 9px; }
+}
+
+@page {
+    size: A4;
+    margin: 8mm;
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .fiche {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 10px;
+        overflow: visible;
+        border: 2px solid #4ca6a6;
+    }
+
+    .actions { display: none !important; }
+
+    .filigrane {
+        opacity: 0.18;
+        background-size: 100% 100%;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .section,
+    .administration {
+        break-inside: avoid;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    input, textarea, select { color: black !important; }
+}
+
+/* PHOTO DU MEMBRE : aperçu visible sur la fiche */
+.photo-membre {
+    margin: 16px 0 20px;
+    padding: 14px;
+    text-align: center;
+    border: 1px dashed #4ca6a6;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.55);
+}
+.photo-membre > label {
+    display: block;
+    margin-bottom: 12px;
+    color: #092c5c;
+    font-weight: bold;
+}
+.cadre-photo {
+    width: 150px;
+    height: 175px;
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 2px solid #4ca6a6;
+    border-radius: 8px;
+    background: #f5f7f8;
+    color: #555;
+    font-size: 13px;
+}
+.cadre-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.photo-membre input[type="file"] {
+    display: block;
+    width: 100%;
+    margin: 10px auto;
+    font-size: 14px;
+}
+.photo-membre small {
+    display: block;
+    margin-top: 8px;
+    color: #555;
+}
+
+</style>
+</head>
+
+<body>
+<div class="fiche">
+
+    <div class="filigrane" aria-hidden="true"></div>
+
+    <header class="entete">
+        <div class="pays">
+            <img class="drapeau"
+                 src="https://flagcdn.com/w160/cd.png"
+                 alt="Drapeau de la RDC">
+            <span>RÉPUBLIQUE DÉMOCRATIQUE DU CONGO</span>
+        </div>
+
+        <div class="matricule">
+            N° de matricule :
+            <input type="text" id="matricule" name="matricule" form="formulaire">
+        </div>
+
+        <div class="logo-entete">
+            <img src="./z.png" alt="Logo Jeunesse Bomoko ASBL">
+        </div>
+
+        <div class="titre-association">ASSOCIATION JEUNESSE BOMOKO ASBL</div>
+        <div class="devise">DEVISE : UNIS • <span class="jaune">ENGAGÉS</span> • AVENIR</div>
+        <h1 class="titre-fiche">FICHE D'ADHÉSION</h1>
+    </header>
+
+    <form id="formulaire"
+          action="https://formsubmit.co/danielkmg8@gmail.com"
+          method="POST"
+          enctype="multipart/form-data">
+
+        <input type="hidden" name="_subject" value="Nouvelle adhésion - Jeunesse Bomoko ASBL">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+
+        <section class="section">
+            <h2>1. IDENTITÉ DU MEMBRE</h2>
+
+            <div class="photo-membre">
+                <label for="photo">PHOTO DU MEMBRE</label>
+                <div class="cadre-photo">
+                    <img id="apercuPhoto" alt="Photo du membre sélectionnée" style="display:none;">
+                    <span id="textePhoto">Votre photo apparaîtra ici</span>
+                </div>
+                <input type="file" id="photo" name="Photo du membre"
+                       accept="image/jpeg,image/png" required
+                       onchange="afficherPhoto(event)">
+                <small>Choisissez une photo JPG ou PNG dans la galerie de votre téléphone.</small>
+            </div>
+
+            <div class="ligne"><label>Nom :</label><input type="text" name="Nom" required></div>
+            <div class="ligne"><label>Postnom :</label><input type="text" name="Postnom" required></div>
+            <div class="ligne"><label>Prénom :</label><input type="text" name="Prénom" required></div>
+            <div class="ligne"><label>Date de naissance :</label><input type="date" name="Date de naissance" required></div>
+            <div class="ligne"><label>Lieu de naissance :</label><input type="text" name="Lieu de naissance"></div>
+            <div class="choix">
+                <strong>Sexe :</strong>
+                <label><input type="radio" name="Sexe" value="Masculin" required> Masculin</label>
+                <label><input type="radio" name="Sexe" value="Féminin"> Féminin</label>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="vert">2. COORDONNÉES</h2>
+            <div class="ligne"><label>Téléphone / WhatsApp :</label><input type="tel" name="Téléphone" required></div>
+            <div class="ligne"><label>Adresse / Quartier :</label><input type="text" name="Adresse" required></div>
+            <div class="ligne"><label>Commune :</label><input type="text" name="Commune"></div>
+            <div class="ligne"><label>Ville :</label><input type="text" name="Ville"></div>
+            <div class="ligne"><label>E-mail :</label><input type="email" name="Email"></div>
+        </section>
+
+        <section class="section">
+            <h2>3. PROFIL DU MEMBRE</h2>
+            <div class="ligne"><label>Niveau d'études :</label><input type="text" name="Niveau d'études"></div>
+            <div class="ligne"><label>Profession / Activité :</label><input type="text" name="Profession ou activité"></div>
+            <div class="ligne"><label>Compétences :</label><input type="text" name="Compétences"></div>
+        </section>
+
+        <section class="section">
+            <h2 class="vert">4. MOTIVATION</h2>
+            <p>Pourquoi souhaitez-vous rejoindre Jeunesse Bomoko ASBL ?</p>
+            <textarea class="motivation" name="Motivation" placeholder="Écrivez votre motivation ici..."></textarea>
+        </section>
+
+        <section class="section">
+            <h2>5. ENGAGEMENT</h2>
+            <p class="engagement">
+                Je soussigné(e), déclare adhérer librement à l'Association Jeunesse Bomoko ASBL.
+                Je m'engage à respecter ses statuts, son règlement intérieur, ses valeurs et ses
+                objectifs, et à contribuer activement à la réalisation de sa vision.
+            </p>
+            <div class="ligne"><label>Fait à :</label><input type="text" name="Lieu de signature"></div>
+            <div class="ligne"><label>Date :</label><input type="date" name="Date de signature"></div>
+            <div class="ligne"><label>Nom complet du membre :</label><input type="text" name="Nom pour signature"></div>
+            <p><strong>Signature manuscrite :</strong> à compléter après impression.</p>
+        </section>
+
+        <section class="administration">
+            <h2>RÉSERVÉ À L'ADMINISTRATION</h2>
+            <div class="ligne"><label>Date d'adhésion :</label><input type="date" name="Date d'adhésion"></div>
+            <div class="choix">
+                <strong>Catégorie :</strong>
+                <label><input type="checkbox" name="Catégorie" value="Membre actif"> Membre actif</label>
+                <label><input type="checkbox" name="Catégorie" value="Membre sympathisant"> Membre sympathisant</label>
+            </div>
+            <div class="ligne"><label>Observations :</label><input type="text" name="Observations"></div>
+            <div class="ligne"><label>Responsable :</label><input type="text" name="Responsable"></div>
+        </section>
+    </form>
+
+    <footer class="pied">
+        JEUNESSE BOMOKO ASBL<br>
+        UNIS • ENGAGÉS • AVENIR<br>
+        Contact : 0999716157
+    </footer>
+</div>
+
+<div class="actions">
+    <button type="submit" form="formulaire" class="btn-envoyer">ENVOYER LE FORMULAIRE</button>
+    <button type="button" class="btn-pdf" onclick="imprimerFiche()">IMPRIMER / ENREGISTRER EN PDF</button>
+    <button type="button" class="btn-effacer" onclick="effacerFormulaire()">EFFACER</button>
+</div>
+
+<script>
+
+function afficherPhoto(event) {
+    const fichier = event.target.files && event.target.files[0];
+    const apercu = document.getElementById("apercuPhoto");
+    const texte = document.getElementById("textePhoto");
+
+    if (!fichier) {
+        apercu.removeAttribute("src");
+        apercu.style.display = "none";
+        texte.style.display = "block";
+        return;
+    }
+
+    if (!["image/jpeg", "image/png"].includes(fichier.type)) {
+        alert("Choisissez une image JPG ou PNG.");
+        event.target.value = "";
+        apercu.removeAttribute("src");
+        apercu.style.display = "none";
+        texte.style.display = "block";
+        return;
+    }
+
+    if (fichier.size > 5 * 1024 * 1024) {
+        alert("La photo ne doit pas dépasser 5 Mo.");
+        event.target.value = "";
+        apercu.removeAttribute("src");
+        apercu.style.display = "none";
+        texte.style.display = "block";
+        return;
+    }
+
+    const lecteur = new FileReader();
+    lecteur.onload = function(e) {
+        apercu.src = e.target.result;
+        apercu.style.display = "block";
+        texte.style.display = "none";
+    };
+    lecteur.readAsDataURL(fichier);
+}
+
+
+function imprimerFiche() {
+    window.print();
+}
+
+function effacerFormulaire() {
+    if (confirm("Voulez-vous effacer toutes les informations ?")) {
+        document.getElementById("formulaire").reset();
+        document.getElementById("matricule").value = "";
+    }
+}
+</script>
+</body>
+</html>
